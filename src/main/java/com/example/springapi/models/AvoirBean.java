@@ -10,6 +10,7 @@ import javax.persistence.*;
 public class AvoirBean {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne() @JoinColumn(name="id_user") private UserBean idUser;
@@ -25,31 +26,26 @@ public class AvoirBean {
     }
 
 
-    @JsonProperty("id_user")
+    @JsonProperty("idUser")
     public UserBean getIdUser() {
         return idUser;
     }
 
-    @JsonProperty("id_user")
+    @JsonProperty("idUser")
     public void setIdUser(UserBean idUser) {
         this.idUser = idUser;
     }
 
-    @JsonProperty("id_genre")
+    @JsonProperty("idGenre")
     public GenreBean getIdGenre() {
         return idGenre;
     }
 
-    @JsonProperty("id_genre")
+    @JsonProperty("idGenre")
     public void setId_genre(GenreBean idGenre) {
         this.idGenre = idGenre;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
 
-    public Long getId() {
-        return id;
-    }
+
 }
