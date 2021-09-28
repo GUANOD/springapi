@@ -127,7 +127,6 @@ public class UserBean {
         this.idRole = idRole;
     }
 
-
     public GenreBean getIdGenre() {
         return idGenre;
     }

@@ -1,6 +1,5 @@
 package com.example.springapi.controllers;
 import com.example.springapi.models.*;
-//import com.example.springapi.models.daos.AvoirDAO;
 import com.example.springapi.models.daos.UserDAO;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +17,10 @@ public class RegisterController {
     @Autowired
     private UserDAO userDAO;
 
-
     @PostMapping("/register")
        Object register(@RequestBody UserBean user){
 
         ErrorMessage error= new ErrorMessage();
-        System.out.println("hello im   times.");
         System.out.println(user.getIdGenre().getIdGenre());
         System.out.println(user.getLogin());
         System.out.println(user.getPassword());
@@ -35,17 +32,11 @@ public class RegisterController {
                     error.setCode(401);
                     throw new Exception(error.getError());
                 }
-                if(user.getPassword().isEmpty() || user.getPassword().isBlank()){
+                if(user.getPassword().isEmpty() || user.getPassword().isBlank()) {
                     error.setError("La password est vide ou manquant");
                     error.setCode(401);
                     throw new Exception(error.getError());
                 }
-
-//                if(user.getGenres().get(0).getGenre().isEmpty()){
-//                    error.setError("Pas de genre selectione");
-//                    error.setCode(401);
-//                    throw new Exception(error.getError());
-//                }
 
                 List<UserBean> users = userDAO.findAllByLogin(user.getLogin());
 
@@ -60,8 +51,10 @@ public class RegisterController {
                     RoleBean role = new RoleBean();
                     role.setIdRole(2);
 
-
                     UserBean newUser = new UserBean(user.getLogin(),hashPass,  user.getName(), role, user.getIdGenre());
+
+                    //INSERT INTO UserBean(login, password, name, id_role, id_genre)
+                    //VALUES("${user.getLogin()}", "${hashpass}", "${user.getName()}", "${role}", "${user.getIdGenre()}")
                     userDAO.save(newUser);
                     return newUser;
                 }
