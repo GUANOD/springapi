@@ -1,13 +1,12 @@
 package com.example.springapi.controllers;
 import com.example.springapi.models.ErrorMessage;
+import com.example.springapi.models.GenreBean;
 import com.example.springapi.models.UserBean;
+import com.example.springapi.models.daos.GenreDao;
 import com.example.springapi.models.daos.UserDAO;
 import org.mindrot.jbcrypt.BCrypt;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -15,8 +14,13 @@ import java.util.List;
 @RequestMapping("/rest")
 public class LoginController{
 
-    @Autowired
-    private UserDAO userDAO;
+    private final UserDAO userDao;
+    private final GenreDao genreDao;
+
+    public LoginController(UserDAO userDao, GenreDao genreDao){
+        this.userDao = userDao;
+        this.genreDao=genreDao;
+    }
 
     @PostMapping("/login")
     Object login(@RequestBody UserBean user){
@@ -51,7 +55,7 @@ public class LoginController{
                 throw new Exception(error.getError());
             }
 
-            return new UserBean(users.get(0).getLogin(), users.get(0).getName(), users.get(0).getIdRole());
+            return new UserBean(users.get(0).getLogin(), users.get(0).getName(), users.get(0).getIdRole(), new GenreBean());
 
 
         }catch(Exception e){
@@ -59,4 +63,37 @@ public class LoginController{
             return error;
         }
     }
+
+
+    @PostMapping("/")
+    Object update(@RequestPart String genre, @RequestPart String user ){
+        System.out.println(genre);
+        System.out.println(user);
+        ErrorMessage error = new ErrorMessage();
+        try {
+            GenreBean genreDBB = genreDao.findByGenre(genre);
+            if(genreDBB == null){
+                error.setError("Genre pas trouve");
+                error.setCode(401);
+                throw new Exception(error.getError());
+            }
+            UserBean userDBB = userDao.findAllByLogin(user);
+            if(user == null){
+                error.setError("Utilisateur pas trouve");
+                error.setCode(401);
+                throw new Exception(error.getError());
+            }
+            user.
+
+        }catch(Exception e){
+            e.printStackTrace();
+            return error;
+        }
+
+
+
+
+
+    }
+
 }

@@ -1,7 +1,6 @@
 package com.example.springapi.controllers;
-import com.example.springapi.models.ErrorMessage;
-import com.example.springapi.models.RoleBean;
-import com.example.springapi.models.UserBean;
+import com.example.springapi.models.*;
+//import com.example.springapi.models.daos.AvoirDAO;
 import com.example.springapi.models.daos.UserDAO;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +18,16 @@ public class RegisterController {
     @Autowired
     private UserDAO userDAO;
 
+
     @PostMapping("/register")
        Object register(@RequestBody UserBean user){
 
         ErrorMessage error= new ErrorMessage();
+        System.out.println("hello im   times.");
+        System.out.println(user.getIdGenre().getIdGenre());
+        System.out.println(user.getLogin());
+        System.out.println(user.getPassword());
+        System.out.println(user.getName());
 
             try{
                 if(user.getLogin().isEmpty() || user.getLogin().isBlank()) {
@@ -36,19 +41,27 @@ public class RegisterController {
                     throw new Exception(error.getError());
                 }
 
+//                if(user.getGenres().get(0).getGenre().isEmpty()){
+//                    error.setError("Pas de genre selectione");
+//                    error.setCode(401);
+//                    throw new Exception(error.getError());
+//                }
+
                 List<UserBean> users = userDAO.findAllByLogin(user.getLogin());
 
                 if(!users.isEmpty()){
                     error.setError("Le utilisateur existe deja");
                     error.setCode(401);
                     throw new Exception(error.getError());
+
+
                 }else {
                     String hashPass = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12));
                     RoleBean role = new RoleBean();
                     role.setIdRole(2);
 
 
-                    UserBean newUser = new UserBean(user.getLogin(), hashPass, user.getName(), role );
+                    UserBean newUser = new UserBean(user.getLogin(),hashPass,  user.getName(), role, user.getIdGenre());
                     userDAO.save(newUser);
                     return newUser;
                 }
