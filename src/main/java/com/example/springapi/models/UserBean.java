@@ -1,13 +1,8 @@
 package com.example.springapi.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "userbean")
@@ -23,13 +18,16 @@ public class UserBean {
     private String name;
     @Column(name = "login")
     private String login;
-
     @ManyToOne()
     @JoinColumn(name = "id_role")
     private RoleBean idRole;
     @ManyToOne()
     @JoinColumn(name = "id_genre")
     private GenreBean idGenre;
+    @Column(name="mail")
+    private String mail;
+    @Column(name="testpass" )
+    private int testPass;
 //    @ManyToMany(cascade={CascadeType.ALL})
 //    @JoinTable(name="avoir",
 //            joinColumns = {@JoinColumn(name="id_user")},
@@ -51,7 +49,7 @@ public class UserBean {
      * @param login
      * @param genre
      */
-    public UserBean(int idUser, String login, String password, String name, RoleBean idRole, GenreBean genre) {
+    public UserBean(int idUser, String login, String password, String name, RoleBean idRole,String mail, int testPass, GenreBean genre) {
         super();
         this.idUser = idUser;
         this.login = login;
@@ -59,23 +57,49 @@ public class UserBean {
         this.name = name;
         this.idRole = idRole;
         this.idGenre = genre;
+        this.mail = mail;
+        this.testPass=testPass;
     }
 
-    public UserBean(String login, String name, RoleBean idRole, GenreBean genre ) {
+    public UserBean(String login, String name, RoleBean idRole, GenreBean genre, String mail, int testPass ) {
         this.login = login;
         this.name = name;
         this.idRole = idRole;
         this.idGenre = genre;
+        this.testPass=testPass;
+        this.mail=mail;
     }
 
-    public UserBean(String login, String password, String name, RoleBean idRole, GenreBean genre) {
+    public UserBean(String login, String password, String name, RoleBean idRole, String mail, GenreBean genre) {
         this.login = login;
         this.password = password;
         this.name = name;
         this.idRole = idRole;
         this.idGenre= genre;
+        this.mail=mail;
     }
 
+    public UserBean(int idUser) {
+        this.idUser= idUser;
+    }
+
+    public UserBean(String login, String name, RoleBean roleBean) {
+        this.login=login;
+        this.name=name;
+        this.idRole=roleBean;
+    }
+
+    public String getMail() { return mail; }
+
+    public void setMail(String mail) { this.mail = mail; }
+
+    public int getTestPass() {
+        return testPass;
+    }
+
+    public void setTestPass(int testPass) {
+        this.testPass = testPass;
+    }
 
     @JsonProperty("idUser")
     public int getIdUser() {

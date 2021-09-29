@@ -31,6 +31,11 @@ public class RoleBean {
         this.name = name;
     }
 
+    public RoleBean(String name) {
+        this.name=name;
+    }
+
+
     @JsonProperty("idRole")
     public int getIdRole() {
         return idRole;

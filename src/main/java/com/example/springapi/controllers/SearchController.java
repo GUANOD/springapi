@@ -5,7 +5,6 @@ import com.example.springapi.models.GenreBean;
 import com.example.springapi.models.UserBean;
 import com.example.springapi.models.daos.GenreDao;
 import com.example.springapi.models.daos.UserDAO;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +16,6 @@ import java.util.List;
 @RequestMapping("/rest")
 public class SearchController {
 
-
     private final UserDAO userDao;
     private final GenreDao genreDao;
 
@@ -25,7 +23,6 @@ public class SearchController {
         this.userDao = userDao;
         this.genreDao=genreDao;
     }
-
 
     @PostMapping("/search")
     Object search(@RequestBody GenreBean genre){
@@ -60,10 +57,5 @@ public class SearchController {
             e.printStackTrace();
             return error;
         }
-
     }
-
-
-
-
 }

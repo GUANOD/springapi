@@ -14,4 +14,6 @@ public interface UserDAO extends JpaRepository<UserBean, Long> {
     //WHERE id_genre = "${idGenre}"
     List<UserBean> findByIdGenre(GenreBean idGenre);
 
+    UserBean findByLogin(String Login);
+
 }
